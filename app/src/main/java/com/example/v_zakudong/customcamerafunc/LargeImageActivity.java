@@ -69,12 +69,6 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
         delete = (TextView) findViewById(R.id.delete);
         back.setOnClickListener(this);
         delete.setOnClickListener(this);
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                Log.d("TAG--------------", t + "uncaughtException: " + e.toString());
-            }
-        });
         screen_width = getResources().getDisplayMetrics().widthPixels;
         screen_height = getResources().getDisplayMetrics().heightPixels;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -158,15 +152,9 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
         if (type == FROM_IMAGE) {
             view = LayoutInflater.from(context).inflate(R.layout.activity_video, null);
             ImageView image_show = (ImageView) view.findViewById(R.id.image_show);
-//            Bitmap bitmap = BitmapFactory.decodeFile(path);
             Bitmap bitmap = readBitmap(context, path);
-//            BitmapFactory.decodeStream()
             if (bitmap != null) {
                 image_show.setImageBitmap(bitmap);
-                /*if (!bitmap.isRecycled()){
-                    bitmap.recycle();
-                    System.gc();
-                }*/
             }
         } else if (type == FROM_VIDEO) {
             view = LayoutInflater.from(context).inflate(R.layout.videoview, null);
@@ -274,12 +262,7 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
     }
 
     //执行文件删除更新操作，由于onResume()方法中已经加载数据，为了减少消耗，就不再重新加载
-    public void deleteUpdatePager() {
-        //首先从集合中删除指定位置的View
-        /*View view = images.get(current_position);
-        if (view!=null){
-            deleteItem(images,view);
-        }*/
+    /*public void deleteUpdatePager() {
         if (type == FROM_IMAGE) {
             //异步执行删除文件操作
             new Thread(new Runnable() {
@@ -314,10 +297,10 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
         //更新适配器
         if (adapter != null && images.size() != 0) {
             adapter.notifyDataSetChanged();
-        }/*else {
+        }*//*else {
             finish();
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-        }*/
+        }*//*
         int count = adapter.getCount();
         if (count > 1) {
             //指定删除后要返回的页面
@@ -330,10 +313,10 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-    }
+    }*/
 
     //从集合中删除指定某个View
-    public void deleteItem(ArrayList<View> list, View item) {
+   /* public void deleteItem(ArrayList<View> list, View item) {
         Iterator<View> iterator = list.iterator();
         while (iterator.hasNext()) {
             View view = iterator.next();
@@ -341,7 +324,7 @@ public class LargeImageActivity extends AppCompatActivity implements View.OnClic
                 iterator.remove();
             }
         }
-    }
+    }*/
 
     class PictureAdapter extends PagerAdapter {
 
