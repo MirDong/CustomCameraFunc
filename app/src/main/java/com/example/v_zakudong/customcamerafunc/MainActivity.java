@@ -28,6 +28,7 @@ import com.example.v_zakudong.customcamerafunc.fragment.CalcFragment;
 import com.example.v_zakudong.customcamerafunc.fragment.OtherFragment;
 import com.example.v_zakudong.customcamerafunc.fragment.TakePhotoFragment;
 import com.example.v_zakudong.customcamerafunc.fragment.VideoRecorderFragment;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] perssions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
     private RadioGroup rg_group;
     private RadioButton[] buttons;
-    public ArrayList<Fragment>fragments = new ArrayList<>();
+    public ArrayList<Fragment> fragments = new ArrayList<>();
     private int current = 0;
     private Spinner spinner;
     private SharedPreferences sp_resoltion;
@@ -51,24 +52,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         initFragment();
-//        initSpinner();
     }
 
+    //初始化碎片
     private void initFragment() {
         fragments.add(new TakePhotoFragment());
         fragments.add(new VideoRecorderFragment());
         fragments.add(new CalcFragment());
         fragments.add(new OtherFragment());
-        getSupportFragmentManager().beginTransaction().add(R.id.linear_layout,fragments.get(0)).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.linear_layout, fragments.get(0)).commit();
     }
 
+    //初始化底部导航栏，
     private void initView() {
-        rg_group = (RadioGroup)findViewById(R.id.rb_group);
-        settings = (ImageView)findViewById(R.id.settings);
+        rg_group = (RadioGroup) findViewById(R.id.rb_group);
+        settings = (ImageView) findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(intent);
             }
         });
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 //切换碎片
                 for (int j = 0; j < count; j++) {
                     buttons[j].setTextColor(Color.parseColor("#989898"));
-                    if (buttons[j].getId()==i){
+                    if (buttons[j].getId() == i) {
                         buttons[j].setTextColor(Color.parseColor("#00c0be"));
                         switchFragment(j);
                     }
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             transaction.add(R.id.linear_layout,fragments.get(position)).hide(fragments.get(current)).commit();
         }*/
-        transaction.replace(R.id.linear_layout,fragments.get(position)).commit();
+        transaction.replace(R.id.linear_layout, fragments.get(position)).commit();
         current = position;
     }
 
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     //动态添加权限
     private void checkPerssion(Activity activity) {
         int perssion_code = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
